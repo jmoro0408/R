@@ -1,4 +1,4 @@
-install.packages("tidyverse")
+
 library(tidyverse)
 
 head(ggplot2::mpg)
@@ -116,7 +116,114 @@ ggplot(data = mpg) +
   ?facet_wrap
   #When using facet_grid() you should usually put the variable with more unique levels in the columns. Why?
 
+  # left
+  ggplot(data = mpg) + 
+    geom_point(mapping = aes(x = displ, y = hwy))
+  
+  # right
+  ggplot(data = mpg) + 
+    geom_smooth(mapping = aes(x = displ, y = hwy))
 
+  ggplot(data = mpg) + 
+    geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv)) +
+    geom_point(mapping = aes(x = displ, y = hwy, color = class))
+
+  ggplot(data = mpg) + 
+    geom_point(mapping = aes(x = displ, y = hwy)) +
+    geom_smooth(mapping = aes(x = displ, y = hwy))
+
+  ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+    geom_point() + 
+    geom_smooth()
+
+  ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+    geom_point(mapping = aes(color = class)) + 
+    geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
+  #se = standard error bars
+  
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy))+
+  geom_point()+
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy), show.legend = FALSE)+
+  geom_point()+
+  geom_smooth(mapping = aes(group = drv),se = FALSE)
+
+?geom_smooth
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = after_stat(prop), group = 1))
+
+?geom_bar
+
+
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+?stat_summary
+  
+
+#What is the default geom associated with stat_summary()? How could you rewrite the previous plot to use that geom function instead of the stat function?
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+
+ggplot(data = diamonds)+  
+  geom_pointrange(     
+    mapping = aes(x = cut, y = depth),     
+    fun.min = min,     
+    fun.max = max,     
+    fun = median,      
+    stat = "summary"   )
+
+ # What does geom_col() do? How is it different to geom_bar()?
+  ?geom_col
+
+ggplot(data = diamonds)+
+  geom_col(mapping = aes(x = cut, y = depth))
+ggplot(data = diamonds)+
+  geom_bar(mapping = aes(x = cut))
+#geom_bar produces a bar chart with the count of occurances
+ 
+#What variables does stat_smooth() compute? 
+#What parameters control its behaviour?
+head(diamonds)
+?stat_smooth
+ggplot(data = diamonds, mapping = aes(x = depth, y = carat)) +
+  stat_smooth()+
+  geom_point(alpha = 0.5)
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, colour = cut))
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = cut))
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+
+
+ggplot(data = diamonds, mapping = aes(x = depth, y = carat, colour = clarity)) + 
+  geom_point(fill = NA, position = "identity")
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
 
 
 
