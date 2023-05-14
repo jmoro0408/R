@@ -226,4 +226,111 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
 
 
+# 1 What is the problem with this plot? How could you improve it?
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()
+# add jitter 
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(position = "jitter")
+
+
+#What parameters to geom_jitter() control the amount of jittering?
+?geom_jitter()
+#width and height
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_jitter(width = 0.5, height = 0.5)
+
+ # Compare and contrast geom_jitter() with geom_count().
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_jitter()
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_count()
+#geom_Count changes the size of the plot points depending on how frequntly
+#they occure
+
+#What’s the default position adjustment for geom_boxplot()?
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty)) + 
+  geom_boxplot()
+?geom_boxplot
+#Create a visualisation of the mpg dataset that demonstrates it.
+head(mpg)
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot()
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot() +
+  coord_flip()
+
+nz <- map_data("nz")
+
+ggplot(nz, aes(long, lat, group = group)) +
+  geom_polygon(fill = "white", colour = "black")
+
+ggplot(nz, aes(long, lat, group = group)) +
+  geom_polygon(fill = "white", colour = "black") +
+  coord_quickmap()
+
+bar <- ggplot(data = diamonds) + 
+  geom_bar(
+    mapping = aes(x = cut, fill = cut), 
+    show.legend = FALSE,
+    width = 1
+  ) + 
+  theme(aspect.ratio = 1) +
+  labs(x = NULL, y = NULL)
+
+bar + coord_flip()
+bar + coord_polar()
+
+
+#Turn a stacked bar chart into a pie chart using coord_polar().
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = class))+
+  geom_bar(stat = 'identity', position = 'stack')+
+  coord_flip()+
+  coord_polar()
+#What does labs() do? Read the documentation.
+?labs
+#adds/edits plot labels
+
+#What’s the difference between coord_quickmap() and coord_map()?
+?coord_quickmap
+?coord_map
+
+# coord_map(): This function is used to create maps with a 
+# specific map projection. It transforms the data to a specified 
+# coordinate reference system (CRS) using the mapproject package. 
+# The resulting plot will have accurate distances and shapes, 
+# but the aspect ratio may be distorted. coord_map() is commonly 
+# used when creating thematic maps, where preserving accurate 
+# geographical representation is important.
+
+# coord_quickmap(): This function is used to create maps with a quick, 
+# approximate map projection. It aims to provide a visually pleasing and 
+# distortion-free representation of the data on a flat surface without 
+# the need for extensive calculations. It preserves the aspect ratio of 
+# the data, making it useful for exploratory data analysis or 
+# when the exact geographical accuracy is less important. coord_quickmap() 
+# is computationally efficient and suitable for large datasets.
+
+
+#What does the plot below tell you about the relationship between 
+#city and highway mpg? Why is coord_fixed() important? 
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() 
+  # coord_fixed()
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() 
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+  coord_fixed()
+#coord_fixed maintains the aspect ratio of the plot 
+#What does geom_abline() do?
+?geom_abline
+# geom_abline adds a reference line diagonally across the plot where x = y
+
 
